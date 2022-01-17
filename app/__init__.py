@@ -1,23 +1,15 @@
+from ensurepip import bootstrap
 from flask import Flask
-from .config import config_options
-from flask_sqlalchemy import SQLAlchemy
+from .config import DevConfig
+from flask_bootstrap import Bootstrap
 
-db = SQLAlchemy()
+# Initializing the app
+app = Flask(__name__)
 
-def create_app(config_name):
+# Configuration setup
+app.config.from_object(DevConfig)
 
-    # Initializing the app
-    app = Flask(__name__)
+# Initializing flask extensions
+bootstrap = Bootstrap(app)
 
-    # Configuration setup
-    app.config.from_object(config_options(config_name))
-
-    #Initializing flask extensions
-    db.init_app(app)
-
-    # Registering the blueprint
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-
-    
-    return app
+from app import views
