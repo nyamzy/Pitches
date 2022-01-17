@@ -1,5 +1,6 @@
 from flask import render_template
 from app import app
+from app.models.jokes import Jokes
 
 @app.route('/')
 def index():
@@ -18,7 +19,7 @@ def vows():
     """
     title = 'Vows'
 
-    return render_template('vows.html', title = title)
+    return render_template('vows.html', title = title, vows = vows)
 
 @app.route('/product')
 def product():
@@ -27,7 +28,7 @@ def product():
     """
     title = 'Product'
 
-    return render_template('product.html', title = title)
+    return render_template('product.html', title = title, product = product)
 
 @app.route('/jokes')
 def jokes():
@@ -36,4 +37,4 @@ def jokes():
     """
     title = 'Jokes'
 
-    return render_template('jokes.html', title = title)
+    return render_template('jokes.html', title = title, jokes = jokes)
