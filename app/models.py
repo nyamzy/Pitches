@@ -1,3 +1,5 @@
+from . import db
+
 class Jokes:
     '''
     Jokes class to define the objects
@@ -42,3 +44,14 @@ class Comment:
     @classmethod
     def clear_comments(cls):
         Comment.all_comments.clear()
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(255))
+
+    def __repr__(self):
+        return f'User {self.username}'
+
