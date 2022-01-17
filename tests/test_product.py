@@ -1,6 +1,6 @@
 import unittest
-from models import product
-Product = product.Product
+from app.models import Product
+
 
 class ProductTest(unittest.TestCase):
     '''
@@ -14,6 +14,3 @@ class ProductTest(unittest.TestCase):
 
     def test_instance(self):
         self.assertTrue(isinstance(self.new_product, Product))
-
-if __name__ == '__main__':
-    unittest.main()

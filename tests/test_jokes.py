@@ -1,6 +1,5 @@
 import unittest
-from models import jokes
-Jokes = jokes.Jokes
+from app.models import Jokes
 
 class JokesTest(unittest.TestCase):
     '''
@@ -14,6 +13,3 @@ class JokesTest(unittest.TestCase):
 
     def test_instance(self):
         self.assertTrue(isinstance(self.new_joke, Jokes))
-
-if __name__ == '__main__':
-    unittest.main()

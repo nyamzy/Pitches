@@ -1,6 +1,5 @@
 import unittest
-from models import vows
-Vows = vows.Vows
+from app.models import Vows
 
 class VowsTest(unittest.TestCase):
     '''
@@ -15,5 +14,3 @@ class VowsTest(unittest.TestCase):
     def test_instance(self):
         self.assertTrue(isinstance(self.new_vow, Vows))
 
-if __name__ == '__main__':
-    unittest.main()
