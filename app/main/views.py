@@ -26,6 +26,8 @@ def vows():
     title = 'Vows'
     form = PitchForm()
     
+    vows = Pitches.query.filter_by(category = "vows").all()
+
     if form.validate_on_submit():
         pitch = Pitches()
         pitch.category = form.category.data
@@ -49,6 +51,8 @@ def product():
     title = 'Product'
     form = PitchForm()
     
+    product = Pitches.query.filter_by(category = "product").all()
+
     if form.validate_on_submit():
         pitch = Pitches()
         pitch.category = form.category.data
@@ -89,12 +93,6 @@ def jokes():
 
     return render_template('jokes.html', title = title, jokes = jokes)
 
-@main.route('/pitch')
-def pitch(category):
-    '''
-    View page function for getting pitches
-    '''
-    vows = get_category("vows")
 
 @main.route('/user/<uname>')
 def profile(uname):

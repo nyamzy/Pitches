@@ -11,7 +11,7 @@ class ProdConfig(Config):
     """
     Production configuration child class
     """
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://nyamzy:redemption@localhost/pitches'
 
 class DevConfig(Config):
     """
