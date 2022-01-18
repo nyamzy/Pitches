@@ -41,7 +41,7 @@ class Vows:
 class Comment(db.Model):
     __tablename__ = 'comments'
 
-    id = db.Column(db.Integer, primary_key = True)
+    comment_id = db.Column(db.Integer, primary_key = True)
     comment_title = db.Column(db.String)
     comment = db.Column(db.String)
     posted = db.Column(db.DateTime, default = datetime.utcnow)

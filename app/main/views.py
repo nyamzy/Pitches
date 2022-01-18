@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, abort
 from ..models import Comment, User
-from flask_login import login_required
+from flask_login import login_required, current_user
 from . import main
 from .forms import CommentForm, UpdateProfile
 from .. import db
@@ -43,6 +43,13 @@ def jokes():
 
     return render_template('jokes.html', title = title, jokes = jokes)
 
+@main.route('/pitch')
+def pitch(category):
+    '''
+    View page function for getting pitches
+    '''
+    vows = get_category("vows")
+
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -70,3 +77,16 @@ def update_profile(uname):
         return redirect(url_for('.profile', uname = user.username))
     
     return render_template('profile/update.html', form = form)
+
+
+@main.route('pitch/comment/new/<int:id>', methdos = ['GET', 'POST'])
+@login_required
+def new_comment(id):
+    form = CommentForm()
+    pitch = get_pitch(id)
+
+    if form.validate_on_submit():
+        title = form.title.data
+        comment = form.comment.data
+
+        new_comment = Comment()
