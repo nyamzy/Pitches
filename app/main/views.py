@@ -79,7 +79,7 @@ def update_profile(uname):
     return render_template('profile/update.html', form = form)
 
 
-@main.route('pitch/comment/new/<int:id>', methdos = ['GET', 'POST'])
+@main.route('pitch/comment/new/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def new_comment(id):
     form = CommentForm()
