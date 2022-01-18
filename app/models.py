@@ -2,6 +2,7 @@ from enum import unique
 from . import db, login_manager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -37,20 +38,23 @@ class Vows:
         self.vow = vow
 
 
-class Comment:
+class Comment(db.Model):
+    __tablename__ = 'comments'
 
-    all_comments = []
-
-    def __init__(self, title, comment):
-        self.title = title
-        self.comment = comment
+    id = db.Column(db.Integer, primary_key = True)
+    comment_title = db.Column(db.String)
+    comment = db.Column(db.String)
+    posted = db.Column(db.DateTime, default = datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     def save_comment(self):
-        Comment.all_comments.append(self)
+        db.session.add(self)
+        db.session.commit()
 
     @classmethod
-    def clear_comments(cls):
-        Comment.all_comments.clear()
+    def get_comments(cls, id):
+        comments = Comment.query.filter_by(id = id).all()
+        return comments
 
 
 class User(UserMixin, db.Model):
