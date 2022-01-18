@@ -1,8 +1,10 @@
+from curses import flash
+from unicodedata import category
 from flask import render_template, request, redirect, url_for, abort
-from ..models import Comment, User
+from ..models import Comment, User, Pitches
 from flask_login import login_required, current_user
 from . import main
-from .forms import CommentForm, UpdateProfile
+from .forms import CommentForm, UpdateProfile, PitchForm
 from .. import db
 
 
@@ -22,6 +24,20 @@ def vows():
     View page function for the vows
     """
     title = 'Vows'
+    form = PitchForm()
+    
+    if form.validate_on_submit():
+        pitch = Pitches()
+        pitch.category = form.category.data
+        pitch.text = form.text.data
+        pitch.user_id = current_user._get_current_object().id
+
+        db.session.add(pitch)
+        db.session.commit()
+
+        flash('Pitch successfully add', 'success')
+    else:
+        flash("Pitch wasn't added", 'error')
 
     return render_template('vows.html', title = title, vows = vows)
 
@@ -31,6 +47,20 @@ def product():
     View page function for product pitches
     """
     title = 'Product'
+    form = PitchForm()
+    
+    if form.validate_on_submit():
+        pitch = Pitches()
+        pitch.category = form.category.data
+        pitch.text = form.text.data
+        pitch.user_id = current_user._get_current_object().id
+
+        db.session.add(pitch)
+        db.session.commit()
+
+        flash('Pitch successfully add', 'success')
+    else:
+        flash("Pitch wasn't added", 'error')
 
     return render_template('product.html', title = title, product = product)
 
@@ -40,6 +70,22 @@ def jokes():
     View page function for the vows
     """
     title = 'Jokes'
+    form = PitchForm()
+
+    jokes = Pitches.query.filter_by(category = "jokes").all()
+    
+    if form.validate_on_submit():
+        pitch = Pitches()
+        pitch.category = form.category.data
+        pitch.text = form.text.data
+        pitch.user_id = current_user._get_current_object().id
+
+        db.session.add(pitch)
+        db.session.commit()
+
+        flash('Pitch successfully add', 'success')
+    else:
+        flash("Pitch wasn't added", 'error')
 
     return render_template('jokes.html', title = title, jokes = jokes)
 

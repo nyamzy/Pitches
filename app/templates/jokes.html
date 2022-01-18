@@ -1,16 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <ol>
-        <li>
-            <p>Jack Ndung'u</p>
-            <h3>Switzerland</h3>
-            <h4>Whats's the best thing about Switzerland? I don't know, but the flag is a big plus!</h4>
-        </li>
-        <li>
-            <p>{{jokes.name}}</p>
-            <h3>{{jokes.title}}</h3>
-            <h4>{{jokes.joke}}</h4>
-        </li>
-    </ol>
+    {% for joke in jokes %}
+        <p>{{joke.user_pitch.username}}</p>
+        <p>{{joke.text}}</p>
+        <p>{{joke.posted}}</p>
+    {% endfor %}
 {% endblock %}

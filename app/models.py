@@ -8,40 +8,42 @@ from datetime import datetime
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class Jokes:
-    '''
-    Jokes class to define the objects
-    '''
-    def __init__(self, name, title, joke):
-        self.name = name
-        self.title = title
-        self.joke = joke
+# class Jokes:
+#     '''
+#     Jokes class to define the objects
+#     '''
+#     def __init__(self, name, title, joke):
+#         self.name = name
+#         self.title = title
+#         self.joke = joke
 
 
-class Product:
-    '''
-    Product class to define the objects
-    '''
-    def __init__(self, name, title, product):
-        self.name = name
-        self.title = title
-        self.product = product
+# class Product:
+#     '''
+#     Product class to define the objects
+#     '''
+#     def __init__(self, name, title, product):
+#         self.name = name
+#         self.title = title
+#         self.product = product
 
 
-class Vows:
-    '''
-    Vows class to define the objects
-    '''
-    def __init__(self, name, title, vow):
-        self.name = name
-        self.title = title
-        self.vow = vow
+# class Vows:
+#     '''
+#     Vows class to define the objects
+#     '''
+#     def __init__(self, name, title, vow):
+#         self.name = name
+#         self.title = title
+#         self.vow = vow
+
 
 
 class Comment(db.Model):
     __tablename__ = 'comments'
 
-    comment_id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
+    pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
     comment_title = db.Column(db.String)
     comment = db.Column(db.String)
     posted = db.Column(db.DateTime, default = datetime.utcnow)
@@ -52,10 +54,30 @@ class Comment(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_comments(cls, id):
-        comments = Comment.query.filter_by(id = id).all()
+    def get_comments(cls, pitch_id):
+        comments = Comment.query.filter_by(pitch_id = pitch_id).all()
         return comments
 
+
+class Pitches(db.Model):
+    __tablename__ = 'pitches'
+
+    id = db.Column(db.Integer, primary_key = True)
+    category = db.Column(db.String(255))
+    text = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    posted = db.Column(db.DateTime, default = datetime.utcnow)
+    comments = db.relationship('Comment', backref = 'pitch', lazy = 'dynamic')
+
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_category(cls, category):
+        pitches = Pitches.query.filter_by(category = category).all()
+        return pitches
+    
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -64,6 +86,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255), index = True)
     email = db.Column(db.String(255), unique = True, index = True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    pitches = db.relationship('Pitches', backref = 'user_pitch', lazy = 'dynamic')
+    comment = db.relationship('Comment', backref = 'user_comment', lazy = 'dynamic')
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
