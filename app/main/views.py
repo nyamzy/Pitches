@@ -51,7 +51,7 @@ def product():
     title = 'Product'
     form = PitchForm()
     
-    product = Pitches.query.filter_by(category = "product").all()
+    products = Pitches.query.filter_by(category = "product").all()
 
     if form.validate_on_submit():
         pitch = Pitches()
@@ -66,7 +66,7 @@ def product():
     else:
         flash("Pitch wasn't added", 'error')
 
-    return render_template('product.html', title = title, product = product)
+    return render_template('product.html', title = title, products = products)
 
 @main.route('/jokes')
 def jokes():

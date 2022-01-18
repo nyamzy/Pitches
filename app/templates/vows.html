@@ -1,18 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <ol>
-        <li>
-            <p>Derrick Barnes</p>
-            <h3>Till the end of time</h3>
-            <h4>"Mary, the day I met you, you made me feel alive again, like my life hit the restart button. I want to spen the rest of my 
-                life with you, and if possible, till the end of time."
-            </h4>
-        </li>
-        <li>
-            <p>{{vows.name}}</p>
-            <h3>{{vows.title}}</h3>
-            <h4>{{vows.joke}}</h4>
-        </li>
-    </ol>
+    {% for vow in vows %}
+        <p>{{vow.user_pitch.username}}</p>
+        <p>{{vow.text}}</p>
+        <p>{{vow.posted}}</p>
+    {% endfor %}
 {% endblock %}
