@@ -1,9 +1,25 @@
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-    {% for product in products %}
-        <p>{{product.user_pitch.username}}</p>
-        <p>{{product.text}}</p>
-        <p>{{product.posted}}</p>
-    {% endfor %}
+    <div class="container">
+        <div class="col-md-8">
+            {% for product in products %}
+                <p>{{product.user_pitch.username}}</p>
+                <p>{{product.text}}</p>
+                <p>{{product.posted}}</p>
+            {% endfor %}
+            
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <h1 class="text-center">Enter a pitch below:</h1>
+        <div class="col-md-12">
+            {{wtf.quick_form(form)}}
+        </div>
+    </div>
+    
 {% endblock %}
