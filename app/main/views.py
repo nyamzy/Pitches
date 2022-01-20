@@ -1,6 +1,5 @@
-from curses import flash
 from unicodedata import category
-from flask import render_template, request, redirect, url_for, abort
+from flask import render_template, request, redirect, url_for, abort, flash
 from ..models import Comment, User, Pitches
 from flask_login import login_required, current_user
 from . import main
@@ -18,80 +17,79 @@ def index():
     return render_template('index.html', title = title)
 
 
-@main.route('/vows')
+@main.route('/vows', methods = ["GET", "POST"])
 def vows():
     """
     View page function for the vows
     """
-    title = 'Vows'
+    title = 'Vow Pitches'
     form = PitchForm()
     
     vows = Pitches.query.filter_by(category = "vows").all()
 
     if form.validate_on_submit():
-        pitch = Pitches()
-        pitch.category = form.category.data
-        pitch.text = form.text.data
-        pitch.user_id = current_user._get_current_object().id
+        
+        category = form.category.data
+        text = form.text.data
+        new_pitch = Pitches(category = category, text = text)
+        new_pitch.save_pitch()
 
-        db.session.add(pitch)
-        db.session.commit()
-
-        flash('Pitch successfully add', 'success')
+        flash('Pitch successfully add')
+        return render_template('vows.html', title = title, vows = vows, form = form)
+        
     else:
-        flash("Pitch wasn't added", 'error')
+        flash("Pitch wasn't added")
+        return render_template('vows.html', title = title, vows = vows, form = form)
+        
 
-    return render_template('vows.html', title = title, vows = vows)
-
-@main.route('/product')
+@main.route('/product', methods = ["GET", "POST"])
 def product():
     """
     View page function for product pitches
     """
-    title = 'Product'
+    title = 'Product Pitches'
     form = PitchForm()
     
-    products = Pitches.query.filter_by(category = "product").all()
+    products = Pitches.query.filter_by(category = "products").all()
 
     if form.validate_on_submit():
-        pitch = Pitches()
-        pitch.category = form.category.data
-        pitch.text = form.text.data
-        pitch.user_id = current_user._get_current_object().id
+       
+        category = form.category.data
+        text = form.text.data
+        
+        new_pitch = Pitches(category = category, text = text)
+        new_pitch.save_pitch()
 
-        db.session.add(pitch)
-        db.session.commit()
 
-        flash('Pitch successfully add', 'success')
+        flash('Pitch successfully add')
+        return render_template('product.html', title = title, products = products, form = form)
     else:
-        flash("Pitch wasn't added", 'error')
+        flash("Pitch wasn't added")
+        return render_template('product.html', title = title, products = products, form = form)
 
-    return render_template('product.html', title = title, products = products)
-
-@main.route('/jokes')
+@main.route('/jokes', methods = ["GET", "POST"])
 def jokes():
     """
     View page function for the vows
     """
-    title = 'Jokes'
+    title = 'Joke Pitches'
     form = PitchForm()
 
     jokes = Pitches.query.filter_by(category = "jokes").all()
     
     if form.validate_on_submit():
-        pitch = Pitches()
-        pitch.category = form.category.data
-        pitch.text = form.text.data
-        pitch.user_id = current_user._get_current_object().id
+       
+        category = form.category.data
+        text = form.text.data
+        new_pitch = Pitches(category = category, text = text)
+        new_pitch.save_pitch()
 
-        db.session.add(pitch)
-        db.session.commit()
 
-        flash('Pitch successfully add', 'success')
+        flash('Pitch successfully add')
+        return render_template('jokes.html', title = title, jokes = jokes, form = form)
     else:
-        flash("Pitch wasn't added", 'error')
-
-    return render_template('jokes.html', title = title, jokes = jokes)
+        flash("Pitch wasn't added")
+        return render_template('jokes.html', title = title, jokes = jokes, form = form)
 
 
 @main.route('/user/<uname>')
@@ -125,12 +123,19 @@ def update_profile(uname):
 
 @main.route('/pitch/comment/new/<int:id>', methods = ['GET', 'POST'])
 @login_required
-def new_comment(id):
+def new_comment(pitch_id):
     form = CommentForm()
-    pitch = get_pitch(id)
+    pitch = Pitches.query.get(pitch_id)
+    all_comments = Comment.query.filter(pitch_id = pitch_id).all()
 
     if form.validate_on_submit():
         title = form.title.data
         comment = form.comment.data
+        pitch_id = pitch_id
+        user_id = current_user._get_current_object().id
 
-        new_comment = Comment()
+        new_comment = Comment(title = title, comment = comment, pitch_id = pitch_id, user_id = user_id)
+
+        new_comment.save_comment()
+        return redirect(url_for('.new_comment', pitch_id = pitch_id))
+    return render_template('comment.html', pitch = pitch, all_comments = all_comments, comment_form = form)
