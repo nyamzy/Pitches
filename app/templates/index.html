@@ -1,42 +1,56 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h1>Welcome to the best Pitches Website</h1>
-    <h3>Choose a category below</h3>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Jokes</h5>
-                  <p class="card-text">Get your quick jokes here</p>
-                  <a href="{{url_for('main.jokes')}}" class="btn btn-primary">View jokes</a>
-                </div>
-              </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">All the best product pitches in the world.</p>
-                  <a href="{{url_for('main.product')}}" class="btn btn-primary">View product pitches</a>
-                </div>
-              </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Vows</h5>
-                  <p class="card-text">Sweep your loved ones off their feet with these cool vows.</p>
-                  <a href="{{url_for('main.vows')}}" class="btn btn-primary">View vows</a>
-                </div>
-              </div>
-        </div>
-    </div>
-
+    <h1 class="text-center">Welcome to the best Pitches Website</h1>
+    <br>
+    <br>
+    <br>
+    <h3 class="text-center">Choose a category below</h3>
+    <br>
+    <br>
+    <br>
+	<div class="col-lg-4">
+		<div class="card1">
+			<div class="card text-center">
+				<img class="card-img-top img-responsive" src="{{url_for('static',filename='images/chaitanya-pillala-zDDdoYqQ64U-unsplash.jpg')}}" alt="Smiley face">
+				<div class="card-body">
+					<h5 class="card-title">Jokes</h5>
+					<p class="card-text">Get your quick jokes here</p>
+					<a href="{{url_for('main.jokes')}}" class="btn btn-primary">View jokes</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<div class="card2">
+			<div class="card text-center">
+				<img class="card-img-top img-responsive" src="{{url_for('static',filename='images/product-school-S3hhrqLrgYM-unsplash.jpg')}}" alt="Product pitch">
+				<div class="card-body">
+					<h5 class="card-title">Product</h5>
+					<p class="card-text">All the best product pitches in the world.</p>
+					<a href="{{url_for('main.product')}}" class="btn btn-primary">View product pitches</a>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class="col-lg-4">
+		<div class="card3">
+			<div class="card text-center">
+				<img class="card-img-top img-responsive" src="{{url_for('static',filename='images/sandy-millar-YeJWDWeIZho-unsplash.jpg')}}" alt="Wedding rings">
+				<div class="card-body">
+					<h5 class="card-title">Vows</h5>
+					<p class="card-text">Sweep your loved ones off their feet with these cool vows.</p>
+					<a href="{{url_for('main.vows')}}" class="btn btn-primary">View vows</a>
+				</div>
+			</div>
+		</div>
+	</div>	
 </div>
 {% endblock %}
     

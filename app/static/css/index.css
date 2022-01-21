@@ -1,0 +1,31 @@
+body {
+    background-image: url("/static/images/pexels-rovenimagescom-949587.jpg");
+}
+
+h1 {
+    color: wheat;
+}
+
+h3 {
+    color: wheat;
+}
+
+h5 {
+    color: wheat;
+}
+
+p {
+    color: wheat;
+}
+
+.card1 {
+    border: 2px solid wheat;
+}
+
+.card2 {
+    border: 2px solid wheat;
+}
+
+.card3 {
+    border: 2px solid wheat;
+}
